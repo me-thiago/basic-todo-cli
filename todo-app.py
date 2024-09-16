@@ -4,6 +4,7 @@
 
 
 # Relevant variables 
+init = 0
 
 class Task:
     def __init__(self, description, category, status, due_date, priority):
@@ -47,14 +48,17 @@ def main_menu():
 def main_menu_short():
     print("\n \n")
     print("next command: ")
+    
 
 def run_app():
+    global init
     while True:
-        init = 0
         if init == 0:
             main_menu()
         else:
             main_menu_short()
+        
+        init += 1
         choice = input("enter your choice: ")
         init = init + 1
 
