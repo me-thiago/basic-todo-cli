@@ -1,4 +1,5 @@
 from InquirerPy import prompt
+from variables import tags_keypair, priority_keypair
 
 def new_task_info():
     adding_task = [
@@ -8,15 +9,10 @@ def new_task_info():
             "message": "Enter the task description:"
         },
         {
-            "type": "checkbox",
+            "type": "list",
             "name": "tags",
             "message": "Select task tags:",
-            "choices": [
-                {"name": "Moon", "value": "moon"},
-                {"name": "Dio", "value": "dio"},
-                {"name": "Personal", "value": "personal"},
-                {"name": "Gin", "value": "gin"}
-            ]
+            "choices": tags_keypair
         },
         {
             "type": "input",
@@ -28,11 +24,7 @@ def new_task_info():
             "type": "list",
             "name": "priority",
             "message": "Select the task priority:",
-            "choices": [
-                {"name": "High", "value": "High"},
-                {"name": "Medium", "value": "Medium"},
-                {"name": "Low", "value": "Low"}
-            ]
+            "choices": priority_keypair
         }
     ]
     answers = prompt(adding_task)
@@ -65,10 +57,13 @@ def first_prompt():
             "message":"Welcome to Thiago's todo manager App. Select one of the options below:",
             "choices":[
                 {"name":"add new task", "value":"1"},
-                {"name":"tag as completed", "value":"2"},
+                {"name":"mark as completed", "value":"2"},
                 {"name":"remove task", "value":"3"},
                 {"name":"view all tasks", "value":"4"},
-                {"name":"exit", "value":"exit"},
+                {"name":"create new tag", "value":"tag"},
+                {"name":"save progress", "value":"save"},
+                {"name":"today's date", "value":"date"},
+                {"name":"exit", "value":"exit"}
                 
             ]
         }
@@ -76,6 +71,17 @@ def first_prompt():
     answers = prompt(menu)
     return answers
     
+def new_tag_info():
+    info = [
+        {
+            "type": "input",
+            "name": "tag_name",
+            "message": "tag name: "
+        }
+
+    ]
+    answers = prompt(info)
+    return answers
 # template_questions = [
 #     {
 #         "type": "list",
