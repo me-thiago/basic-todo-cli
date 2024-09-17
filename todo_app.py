@@ -6,17 +6,18 @@ import os
 from datetime import datetime
 from InquirerPy import prompt
 from cli_questions import *
-from variables import tags, priority, status, new_tag
+from variables import tags, priority, status, new_tag, projects
+from list_mgmt import *
 
 
 
 # Relevant variables 
 init = 0
+current_project = ""
 
 status = ['not started', 'on going', 'completed']
 priority = ['low', 'medium', 'high']
 tags = []
-
 
 class Task:
     def __init__(self, description, category, status, due_date, priority):
@@ -41,7 +42,8 @@ class Task:
     def __repr__(self):
         return f"Task(description={self.description}, category={self.category}, status={self.status}, due_date={self.due_date}, priority={self.priority})"
 
-def load_data(file_name="tasks.json"):
+def load_data(project_name):
+    file_name = project_name +".json"
     try:
         with open(file_name, "r") as file:
             tasks_data = json.load(file)
@@ -49,12 +51,13 @@ def load_data(file_name="tasks.json"):
             # print(f"DEBUG: Loaded {len(tasks)} tasks from {file_name}")
             return tasks
     except FileNotFoundError:
-        # print(f"DEBUG: {file_name} not found, starting with an empty list.")
+        print(f"DEBUG: {file_name} not found, starting with an empty list.")
         return []
     except json.JSONDecodeError as e:
         # print(f"DEBUG: Error reading {file_name} - {e}, starting with an empty list.")
         return []
-tasks = load_data("tasks.json")
+
+tasks = load_data(projects[0])
 
 def add_task(desc, cat, stat, date, prio):
     tasks.append(Task(desc, cat, stat, date, prio))
@@ -71,7 +74,8 @@ def view_list():
         print(f"  {i}. ({task.priority}): {task.description}")
         i = i+1
 
-def save_data(file_name="tasks.json"):
+def save_data(project_name):
+    file_name = project_name + ".json"
     
     data = [task.to_dict() for task in tasks ]
 
@@ -86,6 +90,16 @@ def remove_task(id):
     del tasks[id]
     os.system('cls')
     print(f'task {id} deleted')
+
+def view_projects():
+    i = 0
+    if len(projects)==0:
+        print("no projects found")
+        return
+    print(f'you have {len(projects)} projects listed:')
+    for project in projects:
+        print(f"{i}:\t {project}")
+        i+=1
     
 
 # Run App here  
@@ -102,22 +116,48 @@ def remove_task(id):
 
 def run_app():
     global init
-
-    tasks = load_data("tasks.json")
-
-    # Debugging: Print the tasks list after loading
-    # print(f"DEBUG: Initial tasks list after loading: {tasks}")
-    print("\n")
-    view_list()
+    
+    view_projects()
     while True:
-        # if init == 0:
-        #     main_menu()
-        # else:
-        #     main_menu_short()
-        
-        # init += 1
         print("\n =============================================================================")
-        temp_choice = first_prompt()
+        
+        welcome_choice = welcome()
+        result = welcome_choice['main_menu']
+
+        if result == "a": # Open existing project
+            name_temp = input('type project name: ')
+            print(name_temp)
+            name = name_temp["project_name"]
+            print(name)
+            save_data(name)
+            tasks = load_data(name)
+            projects.append(name)
+            current_project = name
+        elif result == "b": #create new project
+            name_temp = new_project_view()
+            print(name_temp)
+            name = name_temp["project_name"]
+            print(name)
+            save_data(name)
+            tasks = load_data(name)
+            projects.append(name)
+            current_project = name
+        # elif result == "c": #create new project
+        #     # do stuff
+        # elif result == "d":
+        #     # do stuff
+        elif result == "e":
+            break
+        else:
+            print('try again')
+            
+    
+
+
+
+
+
+        temp_choice = list_main()
         choice = temp_choice['main_menu']
         print(choice)
         print("\n")

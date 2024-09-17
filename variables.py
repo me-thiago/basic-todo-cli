@@ -23,3 +23,5 @@ def new_tag(name, value):
     tags_keypair.append({name, value})
     tags.append(value)
     print(f'new tag added: {name}. Total tags: {len(tags_keypair)}')
+
+projects = ["tasks"]

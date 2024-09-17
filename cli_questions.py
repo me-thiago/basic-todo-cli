@@ -1,7 +1,69 @@
 from InquirerPy import prompt
 from variables import tags_keypair, priority_keypair
 
-def new_task_info():
+
+
+def welcome(): ## Welcome. 1. View all available lists/
+    menu = [
+        {
+            
+            "type":"list",
+            "name":"main_menu",
+            "message":"Welcome to this simple and effective todo app! Start by opening an existing list or create a new one",
+            "choices":[
+                {"name":"open an existing project", "value":"a"},
+                {"name":"start a new project", "value":"b"},
+                {"name":"close a project", "value":"c"},
+                {"name":"delete a project", "value":"d"},
+                {"name":"leave app", "value":"e"}
+            ]
+        }
+    ]
+    answers = prompt(menu)
+    return answers
+
+def new_project_view():
+    quest = [
+        {
+            "type": "input",
+            "name": "project_name",
+            "message": "project name: "
+        }
+    ]
+    answers = prompt(quest)
+    return answers
+
+
+def list_main(): #enter a list
+    menu = [
+        {
+            "type":"list",
+            "name": "main_menu",
+            "message":"Welcome to Thiago's todo manager App. Select one of the options below:",
+            "choices":[
+                {"name":"add new task", "value":"1"},
+                {"name":"mark as completed", "value":"2"},
+                {"name":"remove task", "value":"3"},
+                {"name":"view all tasks", "value":"4"},
+                {"name":"create new tag", "value":"tag"},
+                {"name":"save progress", "value":"save"},
+                {"name":"today's date", "value":"date"},
+                {"name":"exit", "value":"exit"}
+                
+            ]
+        }
+    ]
+    answers = prompt(menu)
+    return answers
+
+
+
+
+
+
+
+
+def new_task_info(): #adding new tasks page
     adding_task = [
         {
             "type": "input",
@@ -30,13 +92,7 @@ def new_task_info():
     answers = prompt(adding_task)
     return answers
 
-            # desc = input("task description: ")
-            # cat = input("category: ")
-            # date = input("due date: ")
-            # prio = input("priority (L/M/H): ")
-            # add_task(desc, cat, "not started", date, prio)
-
-def leaving():
+def leaving(): #before close
     save = [
         {
         "type": "confirm",
@@ -49,29 +105,9 @@ def leaving():
     answers = prompt(save)
     return answers
 
-def first_prompt():
-    menu = [
-        {
-            "type":"list",
-            "name": "main_menu",
-            "message":"Welcome to Thiago's todo manager App. Select one of the options below:",
-            "choices":[
-                {"name":"add new task", "value":"1"},
-                {"name":"mark as completed", "value":"2"},
-                {"name":"remove task", "value":"3"},
-                {"name":"view all tasks", "value":"4"},
-                {"name":"create new tag", "value":"tag"},
-                {"name":"save progress", "value":"save"},
-                {"name":"today's date", "value":"date"},
-                {"name":"exit", "value":"exit"}
-                
-            ]
-        }
-    ]
-    answers = prompt(menu)
-    return answers
+
     
-def new_tag_info():
+def new_tag_info(): #creating new tag
     info = [
         {
             "type": "input",
@@ -82,6 +118,9 @@ def new_tag_info():
     ]
     answers = prompt(info)
     return answers
+
+
+
 # template_questions = [
 #     {
 #         "type": "list",
